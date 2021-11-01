@@ -115,7 +115,7 @@ run().catch(console.dir);
 
 app.get('/', (req, res) => {
     console.log('hitting the request');
-    res.send('Running Amigos  Server');
+    res.send('Running Amigo  Server');
 })
 
 app.listen(port, () => {
