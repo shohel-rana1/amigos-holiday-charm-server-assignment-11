@@ -20,6 +20,23 @@ async function run() {
         const database = client.db('tour_planner');
         const placesCollection = database.collection('places');
         const ordersCollecttion = database.collection('orders');
+        const trendingsCollecttion = database.collection('trendings');
+
+        //POST API/ to add a Trending Place
+        app.post('/trendings', async (req, res) => {
+
+            const trending = req.body
+            console.log('hit the post place api', trending);
+            const result = await trendingsCollecttion.insertOne(trending);
+            res.json(result)
+        });
+
+        //GET API/ Get all trendins 
+        app.get('/trendings', async (req, res) => {
+            const cursor = trendingsCollecttion.find({});
+            const trendings = await cursor.toArray();
+            res.send(trendings);
+        });
 
         //GET API/ Get all data
         app.get('/places', async (req, res) => {
