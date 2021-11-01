@@ -52,14 +52,6 @@ async function run() {
             res.send(orders);
         })
 
-        // Get method for single order
-        app.get('/orders/:id', async (req, res) => {
-            const id = req.params.id;
-            const query = { _id: ObjectId(id) };
-            const order = await ordersCollecttion.findOne(query);
-            console.log('load user with is', id)
-            res.json(order);
-        });
 
         //GET API to Have a single data
         app.get('/places/:id', async (req, res) => {
@@ -109,20 +101,22 @@ async function run() {
 
         //update API user
         app.put('/orders/:id', async (req, res) => {
-            const id = (req.params.id);
-            const updatedOrder = req.body;
+            const id = req.params.id;
+            const updateUser = req.body;
             const filter = { _id: ObjectId(id) };
             const options = { upsert: true };
             const updateDoc = {
                 $set: {
-                    status: updatedOrder.status
-                },
+                    status: updateUser[0]
+                }
             };
+            const result = await ordersCollecttion.updateMany(filter, updateDoc, options);
+            console.log(result)
+            res.send(result);
 
-            const result = await ordersCollecttion.updateOne(filter, updateDoc, options)
-            console.log('updating the user ', id);
-            res.json(result)
-        })
+
+        });
+
     }
     finally {
         // await client.close();
